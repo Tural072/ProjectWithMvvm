@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectWithMvvm" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="MainWindow" Height="590" Width="800">
+        Title="MainWindow" Height="670" Width="800">
     <StackPanel>
 
         <StackPanel Height="200" Orientation="Horizontal" >
@@ -72,10 +72,10 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel Height="360"
+        <StackPanel Height="440"
                     Background="DeepSkyBlue" 
                     Orientation="Horizontal">
-            <StackPanel Width="400"
+            <StackPanel Width="420"
                         Background="Red">
                 <TextBlock FontSize="22">Contact Name</TextBlock>
                 <TextBox Text="{Binding SelectedCustomer.ContactName}" FontSize="22"></TextBox>
@@ -87,6 +87,8 @@
                 <TextBox Text="{Binding SelectedCustomer.Country}" FontSize="22"></TextBox>
                 <Button Command="{Binding AddCommand}" FontSize="26">Add</Button>
                 <Button Command="{Binding UpdateCommand}" FontSize="26">Update</Button>
+                <Button Command="{Binding DeleteCommand}" FontSize="26">Delete Order</Button>
+                <Button Command="{Binding DeleteCustomerCommand}" FontSize="26">Delete</Button>
                 <Button Command="{Binding ResetCommand}" FontSize="26">Reset</Button>
             </StackPanel>
             <StackPanel>

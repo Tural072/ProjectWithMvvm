@@ -17,8 +17,15 @@ namespace ProjectWithMvvm.Domain.ViewModels
         public RelayCommand UpdateCommand { get; set; }
         public RelayCommand ResetCommand { get; set; }
         public RelayCommand OrderCommand { get; set; }
+        public RelayCommand DeleteCommand { get; set; }
+        public RelayCommand DeleteCustomerCommand { get; set; }
         public MainViewModel()
         {
+
+            
+            SelectedCustomer = new Customer();
+            SelectedOrder = new Order();
+
             AllCustomers = App.DB.CustomerRepository.GetAllData();
             AllOrders = App.DB.OrderRepository.GetAllData();
 
@@ -26,6 +33,35 @@ namespace ProjectWithMvvm.Domain.ViewModels
              {
                  SelectedCustomer = new Customer();
              });
+
+            DeleteCommand = new RelayCommand((sender) =>
+             {
+                 App.DB.OrderRepository.DeleteData(SelectedOrder);
+                 AllOrders = App.DB.OrderRepository.GetAllData();
+                 MessageBox.Show("Order Successfly Deletes" );
+             }, (pred) =>
+             {
+                 if (SelectedOrder != null && SelectedOrder.Id != 0)
+                 {
+                     return true;
+                 }
+                 return false;
+             });
+
+            DeleteCustomerCommand = new RelayCommand((sender) =>
+             {
+                 App.DB.CustomerRepository.DeleteData(SelectedCustomer);
+                 AllCustomers = App.DB.CustomerRepository.GetAllData();
+                 MessageBox.Show("Customer Successfly");
+             }, (pred) =>
+             {
+                 if (selectedCustomer != null && selectedCustomer.Id != 0)
+                 {
+                     return true;
+                 }
+                 return false;
+             });
+
             OrderCommand = new RelayCommand((sender) =>
              {
                  var order = new Order();
@@ -34,9 +70,9 @@ namespace ProjectWithMvvm.Domain.ViewModels
                  App.DB.OrderRepository.AddData(order);
                  AllOrders= App.DB.OrderRepository.GetAllData();
                  MessageBox.Show("Order Succesfly");
-             },(pred)=> 
+             }, (pred) =>
              {
-                 if (selectedCustomer!=null && selectedCustomer.Id!=0)
+                 if (selectedCustomer != null && selectedCustomer.Id != 0)
                  {
                      return true;
                  }
@@ -99,6 +135,11 @@ namespace ProjectWithMvvm.Domain.ViewModels
             set { selectedCustomer = value; OnPropertyChanged(); }
         }
 
-
+        private Order selectedOrder;
+        public Order SelectedOrder
+        {
+            get { return selectedOrder; }
+            set { selectedOrder = value; OnPropertyChanged(); }
+        }
     }
 }

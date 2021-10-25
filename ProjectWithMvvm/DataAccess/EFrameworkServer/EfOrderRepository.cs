@@ -26,7 +26,7 @@ namespace ProjectWithMvvm.DataAccess.EFrameworkServer
         {
             using (var context = new MyContext())
             {
-                context.Orders.Remove(data);
+                context.Entry(data).State = EntityState.Deleted;
                 context.SaveChanges();
             }
         }

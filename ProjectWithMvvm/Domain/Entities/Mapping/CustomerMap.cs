@@ -49,7 +49,8 @@ namespace ProjectWithMvvm.Entities.Mapping
 
             this.HasMany(c => c.Orders)
                 .WithOptional()
-                .HasForeignKey(o => o.CustomerId);
+                .HasForeignKey(o => o.CustomerId)
+                .WillCascadeOnDelete(true);
 
 
         }
