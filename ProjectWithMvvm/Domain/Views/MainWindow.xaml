@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectWithMvvm" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="590" Width="800">
+    <StackPanel>
 
-        <StackPanel Orientation="Horizontal" >
+        <StackPanel Height="200" Orientation="Horizontal" >
             <ListView   SelectedItem="{Binding SelectedCustomer}" Background="SpringGreen" ItemsSource="{Binding AllCustomers}">
 
                 <i:Interaction.Triggers>
@@ -50,17 +50,17 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <ListView SelectedItem="{Binding SelectedOrder}" Background="SpringGreen" ItemsSource="{Binding AllOrders}">
+            <ListView Width="380" SelectedItem="{Binding SelectedOrder}" Background="SpringGreen" ItemsSource="{Binding AllOrders}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Customer Company Name" Width="100">
+                        <GridViewColumn Header="Customer Company Name" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="5,0" Text="{Binding Customer.CompanyName}" ></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Order Date" Width="100">
+                        <GridViewColumn Header="Order Date" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="5,0" Text="{Binding OrderDate}" ></TextBlock>
@@ -72,6 +72,35 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
+        <StackPanel Height="360"
+                    Background="DeepSkyBlue" 
+                    Orientation="Horizontal">
+            <StackPanel Width="400"
+                        Background="Red">
+                <TextBlock FontSize="22">Contact Name</TextBlock>
+                <TextBox Text="{Binding SelectedCustomer.ContactName}" FontSize="22"></TextBox>
+                <TextBlock FontSize="22">Company Name</TextBlock>
+                <TextBox Text="{Binding SelectedCustomer.CompanyName}" FontSize="22"></TextBox>
+                <TextBlock FontSize="22">City Name</TextBlock>
+                <TextBox Text="{Binding SelectedCustomer.City}" FontSize="22"></TextBox>
+                <TextBlock FontSize="22">Country Name</TextBlock>
+                <TextBox Text="{Binding SelectedCustomer.Country}" FontSize="22"></TextBox>
+                <Button Command="{Binding AddCommand}" FontSize="26">Add</Button>
+                <Button Command="{Binding UpdateCommand}" FontSize="26">Update</Button>
+                <Button Command="{Binding ResetCommand}" FontSize="26">Reset</Button>
+            </StackPanel>
+            <StackPanel>
+                <Button Command="{Binding OrderCommand}" FontSize="36"
+                        Padding="10"
+                        Background="Transparent"
+                        Foreground="White"
+                        BorderThickness="3"
+                        Margin="30"
+                        BorderBrush="SpringGreen"
+                        >Order Now</Button>
+                
+            </StackPanel>
+        </StackPanel>
         
-    </Grid>
+    </StackPanel>
 </Window>

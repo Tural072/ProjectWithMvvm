@@ -6,21 +6,73 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProjectWithMvvm.Domain.ViewModels
 {
-   public class MainViewModel:BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
         public RelayCommand SelectCustomerCommand { get; set; }
+        public RelayCommand AddCommand { get; set; }
+        public RelayCommand UpdateCommand { get; set; }
+        public RelayCommand ResetCommand { get; set; }
+        public RelayCommand OrderCommand { get; set; }
         public MainViewModel()
         {
             AllCustomers = App.DB.CustomerRepository.GetAllData();
             AllOrders = App.DB.OrderRepository.GetAllData();
 
+            ResetCommand = new RelayCommand((sender) =>
+             {
+                 SelectedCustomer = new Customer();
+             });
+            OrderCommand = new RelayCommand((sender) =>
+             {
+                 var order = new Order();
+                 order.OrderDate = DateTime.Now;
+                 order.CustomerId = selectedCustomer.Id;
+                 App.DB.OrderRepository.AddData(order);
+                 AllOrders= App.DB.OrderRepository.GetAllData();
+                 MessageBox.Show("Order Succesfly");
+             },(pred)=> 
+             {
+                 if (selectedCustomer!=null && selectedCustomer.Id!=0)
+                 {
+                     return true;
+                 }
+                 return false;
+             });
             SelectCustomerCommand = new RelayCommand((sender) =>
               {
-                  AllOrders = new ObservableCollection<Order>(SelectedCustomer.Orders);
+                  if (SelectedCustomer!= null)
+                  {
+                      var customer = App.DB.CustomerRepository.GetData(SelectedCustomer.Id);
+                      SelectedCustomer = customer;
+                      AllOrders = new ObservableCollection<Order>(SelectedCustomer.Orders);
+                  }
               });
+
+            AddCommand = new RelayCommand((sender) =>
+             {
+                 var item = App.DB.CustomerRepository.GetData(SelectedCustomer.Id);
+                 if (item == null)
+                 {
+                     App.DB.CustomerRepository.AddData(selectedCustomer);
+                     AllCustomers = App.DB.CustomerRepository.GetAllData();
+                     MessageBox.Show("Add Succesfly");
+                 }
+                 else
+                 {
+                     MessageBox.Show("This customer is already exist!");
+                 }
+
+             });
+
+            UpdateCommand = new RelayCommand((sender) =>
+            {
+                App.DB.CustomerRepository.UpdateData(selectedCustomer);
+                MessageBox.Show("Update Succesfly");
+            });
         }
 
         private ObservableCollection<Customer> allCustomers;

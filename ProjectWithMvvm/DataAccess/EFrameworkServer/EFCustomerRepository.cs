@@ -45,7 +45,7 @@ namespace ProjectWithMvvm.DataAccess.EFrameworkServer
         {
             using (var context = new MyContext())
             {
-                var data = context.Customers.FirstOrDefault(c => c.Id == id);
+                var data = context.Customers.Include("Orders").FirstOrDefault(c => c.Id == id);
                 return data;
             }
 
